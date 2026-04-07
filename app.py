@@ -55,7 +55,7 @@ def gerar_pdf(cliente, email, local, data, hora, checklist, obs, assinatura_path
     return pdf_path
 
 # --- INTERFACE STREAMLIT ---
-st.set_page_config(page_title="MAGILARMES PDF", layout="centered")
+st.set_page_config(page_title="MAGILARMES PDF", layout="wide")
 st.title("🛡️ MAGILARMES")
 st.subheader("Gerador de Relatório S.A.D.I. (PDF)")
 
