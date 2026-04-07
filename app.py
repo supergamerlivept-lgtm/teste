@@ -13,7 +13,8 @@ EMAIL_PASS = "vsekxbeanppigvzj"
 class PDF(FPDF):
     def header(self):
         self.set_font("Arial", "B", 16)
-        self.cell(0, 10, "MAGILARMES - RELATÓRIO TÉCNICO", ln=True, align="C")
+        self.cell(0, 10, "MAGILARMES", ln=True, align="C")
+        self.cell(0, 10, "Relatório Serviço Manutenção do Sistema Automático de Deteção de Incendio", ln=True, align="C"
         self.ln(10)
 
 def gerar_pdf(cliente, email, local, data, checklist, obs, assinatura_path):
@@ -22,12 +23,10 @@ def gerar_pdf(cliente, email, local, data, checklist, obs, assinatura_path):
     pdf.set_font("Arial", size=12)
     
     # Dados do Cliente
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(0, 10, f"Dados do Cliente / Intervenção", ln=True)
     pdf.set_font("Arial", size=11)
     pdf.cell(0, 8, f"Cliente: {cliente}", ln=True)
     pdf.cell(0, 8, f"Local: {local}", ln=True)
-    pdf.cell(0, 8, f"Data: {data}", ln=True)
+    pdf.cell(0, 8, f"Data: {data}" f"Hora: {hora}", ln=True)
     pdf.ln(5)
 
     # Checklist
@@ -63,9 +62,10 @@ st.subheader("Gerador de Relatório S.A.D.I. (PDF)")
 with st.expander("📍 Informações Gerais", expanded=True):
     cliente = st.text_input("Nome do Cliente")
     email_cliente = st.text_input("E-mail do Cliente")
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns(3)
     with col1: localizacao = st.text_input("Local")
     with col2: data_servico = st.date_input("Data")
+    with col3: hora_servico = st.hour_input("Hora")        
 
 st.markdown("### ✅ Checklist")
 c1, c2 = st.columns(2)
