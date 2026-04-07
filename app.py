@@ -7,8 +7,8 @@ from email.mime.multipart import MIMEMultipart
 
 # --- CONFIGURAÇÃO DE E-MAIL (MUITO IMPORTANTE) ---
 # Dica: Na Cloud, usa st.secrets para não expor a tua pass no código
-EMAIL_MEU = "teu-email@gmail.com"
-EMAIL_PASS = "tua-senha-de-app" # Não é a senha normal, é a "App Password"
+EMAIL_MEU = "supergamerlivept@gmail.com"
+EMAIL_PASS = "vsek xbea nppi gvzj" # Não é a senha normal, é a "App Password"
 
 def enviar_email(destinatario, cliente_nome, local, observacoes):
     msg = MIMEMultipart()
