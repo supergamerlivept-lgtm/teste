@@ -22,12 +22,12 @@ def gerar_pdf(cliente, email, local, data, checklist, obs, assinatura_path):
     pdf.set_font("Arial", size=12)
     
     # Dados do Cliente
-    pdf.set_front("Arial", "B", 16)
-    pdf.cell(0, 12, f"Dados do Cliente / Intervenção", ln=True)
-    pdf.set_front("Arial", size=14)
-    pdf.cell(0, 10, f"Cliente: {cliente}", ln=True)
-    pdf.cell(0, 10, f"Local: {local}", ln=True)
-    pdf.cell(0,10, f"Data: {data}", ln=True)
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, f"Dados do Cliente / Intervenção", ln=True)
+    pdf.set_font("Arial", size=11)
+    pdf.cell(0, 8, f"Cliente: {cliente}", ln=True)
+    pdf.cell(0, 8, f"Local: {local}", ln=True)
+    pdf.cell(0, 8, f"Data: {data}", ln=True)
     pdf.ln(5)
 
     # Checklist
@@ -40,10 +40,10 @@ def gerar_pdf(cliente, email, local, data, checklist, obs, assinatura_path):
     
     # Observações
     pdf.ln(5)
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(0, 12, "Observações Técnicas:", ln=True)
-    pdf.set_font("Arial", size=14)
-    pdf.multi_cell(0, 10, obs)
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Observações Técnicas:", ln=True)
+    pdf.set_font("Arial", size=11)
+    pdf.multi_cell(0, 8, obs)
     
     # Assinatura
     pdf.ln(10)
