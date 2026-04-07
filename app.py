@@ -17,7 +17,7 @@ class PDF(FPDF):
         self.cell(0, 10, "Relatório Serviço Manutenção do Sistema Automático de Deteção de Incendio", ln=True, align="C")
         self.ln(10)
 
-def gerar_pdf(cliente, email, local, data, checklist, obs, assinatura_path):
+def gerar_pdf(cliente, email, local, data, hora, checklist, obs, assinatura_path):
     pdf = PDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
@@ -97,7 +97,7 @@ if st.button("Gerar PDF e Enviar", use_container_width=True):
             
             # 2. Gerar PDF
             dados_check = {"Central": v1, "Detectores": v2, "Sirenes": v3, "Baterias": v4}
-            pdf_final = gerar_pdf(cliente, email_cliente, localizacao, data_servico, dados_check, observacoes, img_path)
+            pdf_final = gerar_pdf(cliente, email_cliente, localizacao, data_servico, hora_servico, dados_check, observacoes, img_path)
             
             # 3. Enviar Email
             try:
