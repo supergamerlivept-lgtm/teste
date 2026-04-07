@@ -97,7 +97,7 @@ if st.button("Gerar PDF e Enviar", use_container_width=True):
             
             # 2. Gerar PDF
             dados_check = {"Central": v1, "Detectores": v2, "Sirenes": v3, "Baterias": v4}
-            pdf_final = gerar_pdf(cliente, email_cliente, localizacao, data_servico, hora_servico, dados_check, observacoes, img_path)
+            pdf_final = gerar_pdf(cliente, email_cliente, localizacao, data_servico, dados_check, observacoes, img_path)
             
             # 3. Enviar Email
             try:
