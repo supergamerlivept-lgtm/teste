@@ -12,6 +12,20 @@ with st.form("feedback_form", clear_on_submit=True):
     tipo_servico = st.selectbox("Tipo de Serviço", ["Consultoria", "Suporte", "Vendas"])
     mensagem = st.text_area("A sua mensagem")
     classificacao = st.slider("Avaliação (0 a 10)", 0, 10, 5)
+    nome = st.text_input("Nome do Signatário")
+    
+    st.markdown("### Assine aqui (use o dedo ou rato):")
+    
+    # Criar o componente de desenho (Canvas)
+    canvas_result = st_canvas(
+        fill_color="rgba(255, 165, 0, 0.3)",  # Cor de preenchimento
+        stroke_width=3,                       # Espessura do traço
+        stroke_color="#000000",               # Cor do traço (preto)
+        background_color="#eeeeee",           # Cor de fundo da área
+        height=150,                           # Altura da área de assinatura
+        drawing_mode="freedraw",              # Modo desenho livre
+        key="canvas",
+    )
     
     # Botão de submissão
     submetido = st.form_submit_button("Enviar Dados")
