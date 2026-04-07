@@ -14,7 +14,7 @@ class PDF(FPDF):
     def header(self):
         self.set_font("Arial", "B", 16)
         self.cell(0, 10, "MAGILARMES", ln=True, align="C")
-        self.cell(0, 10, "Relatório Serviço Manutenção do Sistema Automático de Deteção de Incendio", ln=True, align="C"
+        self.cell(0, 10, "Relatório Serviço Manutenção do Sistema Automático de Deteção de Incendio", ln=True, align="C")
         self.ln(10)
 
 def gerar_pdf(cliente, email, local, data, checklist, obs, assinatura_path):
