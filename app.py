@@ -22,7 +22,7 @@ def gerar_pdf(cliente, email, local, data, checklist, obs, assinatura_path):
     pdf.set_font("Arial", size=12)
     
     # Dados do Cliente
-    pdf.set_front("Arial", "B", 16
+    pdf.set_front("Arial", "B", 16)
     pdf.cell(0, 12, f"Dados do Cliente / Intervenção", ln=True)
     pdf.set_front("Arial", size=14)
     pdf.cell(0, 10, f"Cliente: {cliente}", ln=True)
