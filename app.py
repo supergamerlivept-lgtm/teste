@@ -62,7 +62,7 @@ st.subheader("Gerador de Relatório S.A.D.I. (PDF)")
 with st.expander("📍 Informações Gerais", expanded=True):
     cliente = st.text_input("Nome do Cliente")
     email_cliente = st.text_input("E-mail do Cliente")
-    col1, col2 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
     with col1: localizacao = st.text_input("Local")
     with col2: data_servico = st.date_input("Data")
     with col3: hora_servico = st.hour_input("Hora")        
