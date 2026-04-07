@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Formulário Cloud", page_icon="📝")
 
-st.title("📝 Registo de Feedback")
+st.title("MAGILARMES")
 st.markdown("Preencha os dados abaixo para nos enviar as suas informações.")
 
 # Criar o formulário
