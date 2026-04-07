@@ -10,8 +10,12 @@ st.subheader("Relatório de Manutenção: Sistema de Deteção de Incêndio")
 # --- SECÇÃO 1: DADOS DO CLIENTE ---
 with st.expander("📍 Dados do Cliente", expanded=True):
     cliente = st.text_input("Nome do Cliente / Empresa")
-    localizacao = st.text_input("Local da Instalação")
-    data = st.date_input("Data da Intervenção")
+    # Local e Data lado a lado
+    col_local, col_data = st.columns(2)
+    with col_local:
+        localizacao = st.text_input("Local da Instalação")
+    with col_data:
+        data = st.date_input("Data da Intervenção")
 
 # --- SECÇÃO 2: CHECKLIST DE MANUTENÇÃO ---
 st.markdown("### ✅ Checklist de Inspeção")
