@@ -1,43 +1,51 @@
 import streamlit as st
-from streamlit_drawable_canvas import st_canvas # Importação necessária
+from streamlit_drawable_canvas import st_canvas
 import numpy as np
 
-st.set_page_config(page_title="MAGILARMES - Relatório", page_icon="📝")
+st.set_page_config(page_title="MAGILARMES - Manutenção", layout="centered")
 
-st.title("MAGILARMES")
-st.subheader("Relatório Serviço Manutenção do Sistema Automático de Deteção de Incendio")
+st.title("🛡️ MAGILARMES")
+st.subheader("Relatório de Manutenção: Sistema de Deteção de Incêndio")
 
-# 1. CAMPOS DE TEXTO E SELEÇÃO
-nome = st.text_input("Nome Completo")
-email = st.text_input("E-mail")
-tipo_servico = st.selectbox("Tipo de Serviço", ["Manutenção Preventiva", "Manutenção Corretiva", "Instalação"])
-mensagem = st.text_area("Observações Técnicas")
-classificacao = st.slider("Estado Geral do Sistema (0 a 10)", 0, 10, 5)
+# --- SECÇÃO 1: DADOS DO CLIENTE ---
+with st.expander("📍 Dados do Cliente", expanded=True):
+    cliente = st.text_input("Nome do Cliente / Empresa")
+    localizacao = st.text_input("Local da Instalação")
+    data = st.date_input("Data da Intervenção")
 
+# --- SECÇÃO 2: CHECKLIST DE MANUTENÇÃO ---
+st.markdown("### ✅ Checklist de Inspeção")
+col1, col2 = st.columns(2)
+
+with col1:
+    central = st.checkbox("Central de Incêndio Operacional")
+    detectores = st.checkbox("Detectores Limpos e Testados")
+    baterias = st.checkbox("Baterias em Bom Estado")
+
+with col2:
+    sirenes = st.checkbox("Sirenes/Alarmes Testados")
+    botoeiras = st.checkbox("Botoeiras de Emergência OK")
+    comunicador = st.checkbox("Comunicador Rocha/GSM OK")
+
+# --- SECÇÃO 3: OBSERVAÇÕES E ASSINATURA ---
 st.markdown("---")
-st.markdown("### Assinatura do Técnico/Cliente (use o dedo ou rato):")
+observacoes = st.text_area("Observações Técnicas / Peças Substituídas")
 
-# 2. O CANVAS (Tem de estar fora do 'st.form')
+st.markdown("### ✍️ Assinatura Digital")
 canvas_result = st_canvas(
-    fill_color="rgba(255, 165, 0, 0.3)",
     stroke_width=3,
     stroke_color="#000000",
-    background_color="#eeeeee",
+    background_color="#FFFFFF",
     height=150,
     drawing_mode="freedraw",
-    key="canvas_assinatura",
+    key="canvas_magilarmes",
 )
 
-# 3. BOTÃO DE SUBMISSÃO MANUAL
-if st.button("Finalizar e Enviar Relatório"):
-    # Validação simples
-    tem_assinatura = canvas_result.image_data is not None and np.any(canvas_result.image_data > 0)
-    
-    if nome and email and tem_assinatura:
-        st.success(f"Relatório de {nome} enviado com sucesso!")
+# --- BOTÃO DE SUBMISSÃO ---
+if st.button("Finalizar Relatório"):
+    if cliente and (canvas_result.image_data is not None):
+        st.success(f"Relatório de {cliente} guardado com sucesso!")
         st.balloons()
-        
-        # Opcional: Mostrar a assinatura processada
-        st.image(canvas_result.image_data, caption="Assinatura Digitalizada", width=300)
+        # Aqui o relatório estaria pronto para ser enviado ou impresso
     else:
-        st.error("Por favor, preencha todos os campos e certifique-se de que assinou o documento.")
+        st.warning("Por favor, preencha o nome do cliente e assine o campo.")
