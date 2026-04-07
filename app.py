@@ -65,7 +65,7 @@ with st.expander("📍 Informações Gerais", expanded=True):
     col1, col2, col3 = st.columns(3)
     with col1: localizacao = st.text_input("Local")
     with col2: data_servico = st.date_input("Data")
-    with col3: hora_servico = st.hour_input("Hora")        
+    ##with col3: hora_servico = st.hour_input("Hora")        
 
 st.markdown("### ✅ Checklist")
 c1, c2 = st.columns(2)
