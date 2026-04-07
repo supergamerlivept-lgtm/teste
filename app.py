@@ -65,7 +65,7 @@ with st.expander("📍 Informações Gerais", expanded=True):
     col1, col2, col3 = st.columns(3)
     with col1: localizacao = st.text_input("Local")
     with col2: data_servico = st.date_input("Data")
-    ##with col3: hora_servico = st.hour_input("Hora")        
+    with col3: hora_servico = st.hour_input("Hora")        
 
 st.markdown("### ✅ Checklist")
 c1, c2 = st.columns(2)
@@ -97,7 +97,7 @@ if st.button("Gerar PDF e Enviar", use_container_width=True):
             
             # 2. Gerar PDF
             dados_check = {"Central": v1, "Detectores": v2, "Sirenes": v3, "Baterias": v4}
-            pdf_final = gerar_pdf(cliente, email_cliente, localizacao, data_servico, dados_check, observacoes, img_path)
+            pdf_final = gerar_pdf(cliente, email_cliente, localizacao, data_servico, hora_servico, dados_check, observacoes, img_path)
             
             # 3. Enviar Email
             try:
