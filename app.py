@@ -1,27 +1,43 @@
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 import numpy as np
-import yagmail # Biblioteca mais robusta para Gmail
+import yagmail
+from PIL import Image
 
-# --- CONFIGURAÇÃO ---
+# --- CONFIGURAÇÕES ---
 EMAIL_MEU = "supergamerlivept@gmail.com"
-EMAIL_PASS = "vsekxbeanppigvzj" # Confirma que não tem espaços
+EMAIL_PASS = "vsekxbeanppigvzj" # Senha de App sem espaços
 
-def enviar_email_yag(destinatario, cliente_nome, local, observacoes):
+def enviar_email_completo(destinatario, cliente_nome, local, observacoes, checklist, imagem_assinatura):
     try:
-        # Configura o cliente de email
         yag = yagmail.SMTP(EMAIL_MEU, EMAIL_PASS)
         
-        assunto = f"Relatório MAGILARMES - {cliente_nome}"
-        conteudo = f"""
-        Olá, segue o resumo da manutenção:
-        
-        Cliente: {cliente_nome}
-        Local: {local}
-        Observações: {observacoes}
-        
-        Relatório gerado pela MAGILARMES.
-        """
+        # 1. Preparar o texto da Checklist
+        texto_checklist = ""
+        for item, status in checklist.items():
+            icone = "✅" if status else "❌"
+            texto_checklist += f"{icone} {item}\n"
+
+        # 2. Montar o corpo do e-mail
+        assunto = f"Relatório de Manutenção MAGILARMES - {cliente_nome}"
+        conteudo = [
+            f"""
+            RELATÓRIO DE MANUTENÇÃO - SISTEMA DE INCÊNDIO
+            ----------------------------------------------
+            Cliente: {cliente_nome}
+            Local: {local}
+
+            CHECKLIST DE INSPEÇÃO:
+            {texto_checklist}
+
+            OBSERVAÇÕES TÉCNICAS:
+            {observacoes}
+
+            ----------------------------------------------
+            Assinatura digital em anexo.
+            """,
+            imagem_assinatura # Envia a imagem como anexo
+        ]
         
         yag.send(to=destinatario, subject=assunto, contents=conteudo)
         return True
@@ -32,41 +48,68 @@ def enviar_email_yag(destinatario, cliente_nome, local, observacoes):
 # --- INTERFACE ---
 st.set_page_config(page_title="MAGILARMES", layout="centered")
 st.title("🛡️ MAGILARMES")
+st.subheader("Relatório de Manutenção S.A.D.I.")
 
+# Secção 1: Dados
 with st.expander("📍 Dados do Cliente", expanded=True):
     cliente = st.text_input("Nome do Cliente / Empresa")
     email_cliente = st.text_input("E-mail do Cliente")
-    col_local, col_data = st.columns(2)
-    with col_local:
+    col_l, col_d = st.columns(2)
+    with col_l:
         localizacao = st.text_input("Local da Instalação")
-    with col_data:
+    with col_d:
         data = st.date_input("Data da Intervenção")
 
-st.markdown("### ✅ Checklist Rápida")
+# Secção 2: Checklist
+st.markdown("### ✅ Checklist de Inspeção")
 c1, c2 = st.columns(2)
 with c1:
-    central = st.checkbox("Central OK")
-    detectores = st.checkbox("Detectores OK")
+    v1 = st.checkbox("Central de Incêndio OK")
+    v2 = st.checkbox("Detectores Testados")
 with c2:
-    sirenes = st.checkbox("Sirenes OK")
-    baterias = st.checkbox("Baterias OK")
+    v3 = st.checkbox("Sirenes Testadas")
+    v4 = st.checkbox("Baterias Verificadas")
 
 observacoes = st.text_area("Observações Técnicas")
 
-st.markdown("### ✍️ Assinatura")
-canvas_result = st_canvas(stroke_width=3, background_color="#eeeeee", height=150, key="canvas_v3")
+# Secção 3: Assinatura
+st.markdown("### ✍️ Assinatura Digital")
+canvas_result = st_canvas(
+    stroke_width=3,
+    stroke_color="#000000",
+    background_color="#eeeeee",
+    height=150,
+    drawing_mode="freedraw",
+    key="canvas_final_magilarmes",
+)
 
-if st.button("Finalizar e Enviar", use_container_width=True):
+# --- BOTÃO DE ENVIO ---
+if st.button("Finalizar e Enviar Relatório", use_container_width=True):
     assinou = canvas_result.image_data is not None and np.any(canvas_result.image_data > 0)
     
     if cliente and email_cliente and assinou:
-        with st.spinner("A enviar..."):
-            # Envia para a empresa e para o cliente
-            envio1 = enviar_email_yag(EMAIL_MEU, cliente, localizacao, observacoes)
-            envio2 = enviar_email_yag(email_cliente, cliente, localizacao, observacoes)
+        with st.spinner("A gerar relatório e a enviar e-mails..."):
             
-            if envio1 and envio2:
-                st.success("Relatórios enviados com sucesso!")
+            # Processar a imagem da assinatura
+            img_array = np.array(canvas_result.image_data)
+            img = Image.fromarray(img_array.astype('uint8'), 'RGBA')
+            img_path = "assinatura.png"
+            img.save(img_path)
+            
+            # Dados para o email
+            dados_check = {
+                "Central de Incêndio": v1,
+                "Detectores": v2,
+                "Sirenes": v3,
+                "Baterias": v4
+            }
+            
+            # Enviar para o cliente e para a empresa
+            sucesso = enviar_email_completo(email_cliente, cliente, localizacao, observacoes, dados_check, img_path)
+            enviar_email_completo(EMAIL_MEU, cliente, localizacao, observacoes, dados_check, img_path)
+            
+            if sucesso:
+                st.success(f"Relatório completo enviado para {cliente}!")
                 st.balloons()
     else:
-        st.error("Preencha todos os campos e assine.")
+        st.error("Preencha o Nome, E-mail e assine o campo para continuar.")
